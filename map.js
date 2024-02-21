@@ -136,54 +136,96 @@ function getLogoPath(developmentNeeds) {
 
 // add a popup for the basemap
 map.on('click', 'Nov23_BOI Community Survey', (e) => {
-    // Copy coordinates array.
-    const coordinates = e.features[0].geometry.coordinates.slice();
+  // แยกข้อมูลจาก Feature
+  const {
+    properties: {
+      ชื่อองค์กรที่ต้องการเข้าร่วม: Organization,
+      องค์กรท่านเป็นรูปแบบใด: OrganizationType,
+      ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน: DevelopmentNeeds,
+      ความต้องการด้านเทคโนโลยีดิจิทัล: TechnologicalNeeds,
+      ความต้องการด้านนวัตกรรม: InnovationNeeds,
+      ตำบล: SubDistrict,
+      อำเภอ: District,
+      จังหวัด: Province,
+      ['re-ลักษณะการดำเนินงานขององค์กรเป็นรูปแบบใด']: OperatingCharacteristics,
+    },
+    geometry: { coordinates },
+  } = e.features[0];
 
-    const Organization = e.features[0].properties.ชื่อองค์กรที่ต้องการเข้าร่วม;
-    const OrganizationType = e.features[0].properties.องค์กรท่านเป็นรูปแบบใด;
-    const DevelopmentNeeds = e.features[0].properties.ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน;
-    const TechnologicalNeeds = e.features[0].properties.ความต้องการด้านเทคโนโลยีดิจิทัล;
-    const InnovationNeeds = e.features[0].properties.ความต้องการด้านนวัตกรรม;
-    const SubDistrict = e.features[0].properties.ตำบล;
-    const District = e.features[0].properties.อำเภอ;
-    const Province = e.features[0].properties.จังหวัด; 
-    const OperatingCharacteristics = e.features[0].properties['re-ลักษณะการดำเนินงานขององค์กรเป็นรูปแบบใด'];
-
-    // Ensure that if the map is zoomed out such that multiple
-    // copies of the feature are visible, the popup appears
-    // over the copy being pointed to.
-    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+  // ปรับพิกัดให้ตรงกับตำแหน่งที่คลิก
+  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    }
-   
+  }
 
- 
-    new mapboxgl.Popup()
+  // สร้าง Popup
+  const popup = new mapboxgl.Popup()
     .setLngLat(coordinates)
-      .setHTML(
-        '<div class="popup-content">' +
-        '<h3>' + Organization + '</h3>' +
-        '<p>ต.' + SubDistrict + ' อ.' + District + ' จ.' + Province + '</p>' +
-        '<h4> รูปแบบองค์กร: </h4>' +
-        '<p>' + OrganizationType + '</p>' +
-        '<h4> ลักษณะการดำเนินงาน : </h4>' +
-        '<p>' + OperatingCharacteristics + '</p>' +
-        '<h4> รูปแบบความต้องการสนับสนุน : </h4>' +
-        '<p><img src="' + getLogoPath(DevelopmentNeeds) + '" style="width:20px;height:20px;margin-right:5px;vertical-align:middle;">' + DevelopmentNeeds + '</p>' +
-        '<h4> ความต้องการด้านเทคโนโลยีดิจิทัล: </h4>' +
-        '<p>' + TechnologicalNeeds + '</p>' +
-        '<h4> ความต้องการด้านวัตกรรม : </h4>' +
-        '<p>' + InnovationNeeds + '</p>' +
-        '<div class="button-container-center">' +
-        '<a href="https://docs.google.com/forms/d/e/1FAIpQLSeggJtcjYLbr9_03emHlH9O1SVy2mVjPUGQJ500T-Yg9p0Vig/viewform?usp=pp_url&entry.25230313=' + Organization+ '" target="_blank" class="blue-button">สนใจสนับสนุน</a>' +
-        '</div>' +
-        '</div>'
-      )
-
+    .setHTML(
+      `<div class="popup-content">
+        <h3>${Organization}</h3>
+        <p>ต. ${SubDistrict} อ. ${District} จ. ${Province}</p>
+        <h4>รูปแบบองค์กร:</h4>
+        <p>${OrganizationType}</p>
+        <h4>ลักษณะการดำเนินงาน:</h4>
+        <p>${OperatingCharacteristics}</p>
+        <h4>รูปแบบความต้องการสนับสนุน:</h4>
+        <p><img src="${getLogoPath(DevelopmentNeeds)}" style="width:20px;height:20px;margin-right:5px;vertical-align:middle;">${DevelopmentNeeds}</p>
+        <h4>ความต้องการด้านเทคโนโลยีดิจิทัล:</h4>
+        <p>${TechnologicalNeeds}</p>
+        <h4>ความต้องการด้านวัตกรรม:</h4>
+        <p>${InnovationNeeds}</p>
+        <div class="button-container-center">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSeggJtcjYLbr9_03emHlH9O1SVy2mVjPUGQJ500T-Yg9p0Vig/viewform?usp=pp_url&entry.25230313=${Organization}" target="_blank" class="blue-button">สนใจสนับสนุน</a>
+        </div>
+      </div>`
+    )
     .addTo(map);
+});
+
+
+    
+map.on('click', 'BOI_highlighted_programs', (e) => {
+
+  function generatePopupContent(Organization, SubDistrict, District, Province, DevelopmentNeeds, Projectname, Purpose1, Purpose2, Purpose3, photo, onepage) {
+
+    // Get the logo path (assuming you have this function already)
+    const logoPath = getLogoPath(DevelopmentNeeds);
+
+    // Build an array of purposes, making sure to handle nulls 
+    const purposes = [Purpose1, Purpose2, Purpose3].filter(purpose => purpose !== null && purpose !== '');
+
+   // Start building your HTML string
+
+    // Start building your HTML string
+    let popupContent = `
+    <div class="popup-content">
+      <h3 style="margin-bottom: 0;">${Organization}</h3>
+      <p>ต. ${SubDistrict} อ. ${District} จ. ${Province}</p>
+      <h4> รูปแบบความต้องการสนับสนุน : </h4> 
+      <p><img src="${logoPath}" style="width:20px;height:20px;margin-right:5px;vertical-align:middle;">${DevelopmentNeeds}</p> 
+      <h4> โครงการที่ต้องการสนับสนุน: </h4> 
+      <p><img src="icon/icon_highlight.svg" style="width:20px;height:20px;margin-right:5px;vertical-align:middle;">${Projectname}</p> 
+      <h4> วัตถุประสงค์โครงการ: </h4> 
+  `;
+
+    // Add purposes dynamically
+    purposes.forEach((purpose, index) => {
+      popupContent += `<p>${index + 1}. ${purpose}</p>`;
     });
 
-map.on('click', 'BOI_highlighted_programs', (e) => {
+    // Continue building the HTML string.
+    popupContent += `
+      <img src="https://drive.google.com/thumbnail?id=${photo}" class="popup-image"> 
+      <div class="button-container-center"> 
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeggJtcjYLbr9_03emHlH9O1SVy2mVjPUGQJ500T-Yg9p0Vig/viewform?usp=pp_url&entry.25230313=${Organization}" target="_blank" class="blue-button">สนใจสนับสนุน</a> 
+        <a href="${onepage}" target="_blank" class="blue-button">Onepage โครงการ</a> 
+      </div> 
+    </div>
+  `;
+
+    return popupContent;
+  }
+
   const coordinates = e.features[0].geometry.coordinates.slice();
 
   const Organization = e.features[0].properties.ชื่อองค์กรที่ต้องการเข้าร่วม
@@ -198,7 +240,6 @@ map.on('click', 'BOI_highlighted_programs', (e) => {
   const photo = e.features[0].properties["photo"].split("/")[5];
   const onepage = e.features[0].properties.onepage;
 
-
   const test = e.features[0].properties
 
   console.log("test", test)
@@ -211,30 +252,15 @@ map.on('click', 'BOI_highlighted_programs', (e) => {
     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
   }
 
-
-  new mapboxgl.Popup()
-    .setLngLat(coordinates)
-    .setHTML(
-      '<div class="popup-content">' +
-      '<h3 style="margin-bottom: 0;">' + Organization + '</h3>' +
-      '<p>ต.' + SubDistrict + ' อ.' + District + ' จ.' + Province + '</p>' +
-      '<h4> รูปแบบความต้องการสนับสนุน : </h4>' +
-      '<p><img src="' + getLogoPath(DevelopmentNeeds) + '" style="width:20px;height:20px;margin-right:5px;vertical-align:middle;">' + DevelopmentNeeds + '</p>' +
-      '<h4> โครงการที่ต้องการสนับสนุน: </h4>' +
-      '<p><img src="icon/icon_highlight.svg" style="width:20px;height:20px;margin-right:5px;vertical-align:middle;">' + Projectname + '</p>' +
-      '<h4> วัตถุประสงค์โครงการ: </h4>' +
-      '<p> 1. ' + Purpose1 + '</p>' +
-      '<p> 2. ' + Purpose2 + '</p>' +
-      '<p> 3. ' + Purpose3 + '</p>' +
-      '<img src="https://drive.google.com/thumbnail?id='+ photo + '" class="popup-image">' +
-      '<div class="button-container-center">' +
-      '<a href="https://docs.google.com/forms/d/e/1FAIpQLSeggJtcjYLbr9_03emHlH9O1SVy2mVjPUGQJ500T-Yg9p0Vig/viewform?usp=pp_url&entry.25230313=' + Organization + '" target="_blank" class="blue-button">สนใจสนับสนุน</a>' +
-      '<a href="' + onepage +'"' +  'target="_blank" class="blue-button">Onepage โครงการ</a>' +
-      '</div>'+ 
-     '</div> '
-    )
-    .addTo(map);
-});
+  new mapboxgl.Popup({
+  closeOnClick: true,
+  anchor: "top",
+  offset: [0, -20],
+})
+  .setLngLat(coordinates)
+  .setHTML(generatePopupContent(Organization, SubDistrict, District, Province, DevelopmentNeeds, Projectname, Purpose1, Purpose2, Purpose3, photo, onepage))
+  .addTo(map);
+})
 
 map.on('mouseenter', 'BOI_highlighted_programs', () => {
   map.getCanvas().style.cursor = 'pointer';
