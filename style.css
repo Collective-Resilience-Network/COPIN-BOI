@@ -21,12 +21,12 @@ body {
 .filter-group {
   position: absolute;
   top: 9vh;
-  right: 20px;
-  width: 250px;
+  right: 4vw;
+  width: 20vw;
   background-color: #ffffff;
   border-radius: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  padding: 20px;
+  padding: 1vw;
   z-index: 1000;
   /* Make sure it appears above the map */
 }
@@ -36,13 +36,13 @@ body {
   /* Use flexbox for layout */
   align-items: flex-start;
   /* Vertically align to the top */
-  margin-bottom: 10px;
+  margin-bottom: 1.5vh;
   cursor: pointer;
   font-size: 14px;
 }
 
 .filter-group label input {
-  margin-right: 8px;
+  margin-right: 8vw;
   /* Space between checkbox and label text */
 }
 
@@ -55,10 +55,10 @@ body {
   display: inline-block;
   width: 20px;
   height: 20px;
-  margin-right: 8px;
+  margin-right: 1vw;
   background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 3px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
   position: relative;
 }
 
@@ -94,12 +94,46 @@ body {
   color: #007bff;
   text-decoration: none;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 1vh;
 
   /* Add the following: */
   float: right;
 }
 
+.search-container {
+  position: absolute;
+  top: 2vh;
+  right: 6vw;
+  margin-right: 3vw;
+  /* Add a 20px left margin */
+}
+
+.search-container input[type="text"] {
+  padding: 1vw;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  /* Slightly rounded corners */
+  width: 20vw;
+  /* Adjust the width as needed */
+  font-size: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding-left: 2vw;
+  /* Subtle shadow */
+}
+
+.search-container input[type="text"]:focus {
+  outline: none;
+  border-color: #007bff;
+  /* Optional: change border on focus */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.search-container i {
+  position: absolute;
+  left: 1vw;
+  top: 50%;
+  transform: translateY(-50%);
+}
 #toggle-btn {
   position: absolute;
   top: 20px;
@@ -144,7 +178,7 @@ body {
 
 .blue-button {
   display: inline-block;
-  background-color: #003995;
+  background-color: #007bff;
   color: white;
   padding: 8px 15px;
   text-align: center;
@@ -159,41 +193,6 @@ body {
 
 .blue-button:hover {
   background-color: #2d7af6;
-}
-.search-container {
-  position: absolute;
-  top: 20px;
-  right: 90px;
-  margin-right: 2vw;
-  /* Add a 20px left margin */
-}
-
-.search-container input[type="text"] {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  /* Slightly rounded corners */
-  width: 250px;
-  /* Adjust the width as needed */
-  font-size: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding-left: 35px;
-  /* Subtle shadow */
-}
-
-.search-container input[type="text"]:focus {
-  outline: none;
-  /* Remove default focus outline */
-  border-color: #007bff;
-  /* Optional: change border on focus */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.search-container i {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 
@@ -210,4 +209,54 @@ body {
   margin-top: 0px;
   margin-bottom: 10px;
   color: gray;
+}
+
+
+
+/* ... (Your existing CSS) */
+
+/* General styling for smaller screens */
+@media only screen and (max-width: 768px) {
+  body {
+    font-size: 14px;
+    /* Adjust base font size for readability */
+  }
+
+  .search-container input[type="text"] {
+      padding-left: 30px;
+
+      /* Increase this value as needed */
+    }
+  .filter-group {
+    right: 2vw;
+    width: 90vw;
+    padding:10px;
+    /* Expand filter group to occupy most of the screen width */
+  }
+
+  #toggle-btn {
+    right: 10px;
+    top: 10px;
+    /* Reposition toggle button */
+    padding: 5px 10px;
+    /* Reduce button size */
+  }
+
+  .search-container {
+    top: 1vh;
+    right: 2vw;
+    width: 85vw;
+    /* Adjust width for mobile */
+  }
+
+  .search-container input[type="text"] {
+    font-size: 12px;
+    width: 60%;
+    /* margin-right: 3vw; */
+    /* Adjust input text size */
+  }
+
+  .mapboxgl-popup {
+    max-width: 90vw;
+  }
 }
