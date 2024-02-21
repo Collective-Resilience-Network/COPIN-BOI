@@ -5,25 +5,134 @@ const map = new mapboxgl.Map({
   style: "mapbox://styles/asbarve/clp6zwd1i00go01qx4vi064wp", // Map style to use
   attributionControl: false, //Hide Mapbox Bottom Right Message
   center: [101, 13.07], // Starting position [lng, lat]
-  zoom: 5, // Starting zoom level
+  zoom: 6, // Starting zoom level
   projection: "globe",
 });
 
-// Initialize the search engine
-const geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken, // Set the access token
-    mapboxgl: mapboxgl, // Set the mapbox-gl instance
-    placeholder: "Search Location", //placeholder text for the search bar
+
+
+// Function to update the filter
+
+
+
+// // Initialize the search engine
+// const geocoder = new MapboxGeocoder({
+//     accessToken: mapboxgl.accessToken, // Set the access token
+//     mapboxgl: mapboxgl, // Set the mapbox-gl instance
+//     placeholder: "Search by Name", //placeholder text for the search bar
+//   });
+
+
+// map.addControl(geocoder);
+
+map.on('load', function () {
+  // Debug: Log to ensure the map is loaded
+  console.log('Map loaded');
+  document.getElementById('searchBar').addEventListener('input', function (e) {
+    searchOrganizations(e.target.value.trim());
   });
 
-// Add the search engine to the map
-map.addControl(geocoder);
 
-map.on("load", () => {
-  console.log(map.getStyle());
+  document.getElementById('select-all').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default link behavior
+
+    const developmentNeedsCheckboxes = document.querySelectorAll('input[name="development-needs"]');
+
+    // Find out if we should check or uncheck all boxes
+    const allChecked = Array.from(developmentNeedsCheckboxes).every(cb => cb.checked);
+
+    // Toggle state of other checkboxes 
+    developmentNeedsCheckboxes.forEach(checkbox => {
+      checkbox.checked = allChecked;
+    });
+
+    applyFilters(); // Refresh the filter
+  });
+
+
+  function searchOrganizations(query) {
+    if (!query) {
+      // If query is empty, reset the filter or adjust according to your needs
+      map.setFilter('Nov23_BOI Community Survey', null); // Example of resetting the filter
+      map.setFilter('BOI_highlighted_programs', null)
+      return;
+    }
+
+    // Adjust the filter to search for a word within the organization names
+    // This creates a case-insensitive filter that looks for the query within the organization name field
+    const searchFilter = ['any',
+      ['case',
+        ['in', ['downcase', query], ['downcase', ['get', 'ชื่อองค์กรที่ต้องการเข้าร่วม']]],
+        true,
+        false]];
+
+    // Apply the filter to the layer
+    try {
+      map.setFilter('Nov23_BOI Community Survey', searchFilter);
+      map.setFilter('BOI_highlighted_programs', searchFilter);
+    } catch (error) {
+      console.error('Error applying search filter:', error);
+    }
+  }
+
+  
+
+  // Example: Add a source and layer here if needed
+  // This code assumes the layer and its data are already added to the map through the style or programmatically
+
+  // Apply filters based on checkbox changes
+  document.querySelectorAll('input[name="development-needs"]').forEach(input => {
+    input.addEventListener('change', function () {
+      applyFilters();
+    });
+  });
+
+  function applyFilters() {
+    const checkboxes = document.querySelectorAll('input[name="development-needs"]:checked');
+    const values = Array.from(checkboxes).map(cb => cb.value);
+
+    // Debug: Log the current filter values
+    console.log('Filtering for:', values);
+
+    let filter = ['in', 'ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน']; // Basic structure of an 'in' expression
+
+    // Adjust the filter based on selected values
+    if (values.length) {
+      filter = ['any'];
+      values.forEach(value => {
+        filter.push(['==', ['get', 'ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน'], value]);
+      });
+    }
+
+    // Apply the filter to the layer, or reset if no filter is selected
+    try {
+      map.setFilter('Nov23_BOI Community Survey', filter.length > 1 ? filter : null);
+      map.setFilter('BOI_highlighted_programs', filter.length > 1 ? filter : null);
+    } catch (error) {
+      console.error('Error applying filter:', error);
+    }
+  }
 });
 
 
+function getLogoPath(developmentNeeds) {
+  switch (developmentNeeds) {
+    case 'พัฒนาด้านการศึกษา สาธารณสุข และสิ่งแวดล้อมชุมชน':
+      return 'icon/icon_edu.svg';
+    case 'การพัฒนาคุณภาพชีวิตคนทุกช่วงวัย เช่น การพัฒนาเด็กเล็ก การดูแลผู้สูงอายุ':
+      return 'icon/icon_product.svg';
+    case 'พัฒนาภาคเกษตรและระบบน้ำ':
+      return 'icon/icon_farm.svg';
+    case 'พัฒนาหรือต่อยอดรูปแบบผลิตภัณฑ์หัตถกรรมท้องถิ่น':
+      return 'icon/icon_product.svg';
+    case 'พัฒนาการท่องเที่ยวชุมชน':
+      return 'icon/icon_tourism.svg';
+    case 'สนับสนุนโรงงานแปรรูปสินค้าเกษตรหรือผลผลิตทางการเกษตรของชุมชน':
+      return 'icon/icon_factory.svg';
+    default:
+      return 'icon/default-logo.svg'; // Default logo if none of the cases match
+  }
+}
 
 // add a popup for the basemap
 map.on('click', 'Nov23_BOI Community Survey', (e) => {
@@ -35,25 +144,107 @@ map.on('click', 'Nov23_BOI Community Survey', (e) => {
     const DevelopmentNeeds = e.features[0].properties.ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน;
     const TechnologicalNeeds = e.features[0].properties.ความต้องการด้านเทคโนโลยีดิจิทัล;
     const InnovationNeeds = e.features[0].properties.ความต้องการด้านนวัตกรรม;
-     
+    const SubDistrict = e.features[0].properties.ตำบล;
+    const District = e.features[0].properties.อำเภอ;
+    const Province = e.features[0].properties.จังหวัด; 
+    const OperatingCharacteristics = e.features[0].properties['re-ลักษณะการดำเนินงานขององค์กรเป็นรูปแบบใด'];
+
     // Ensure that if the map is zoomed out such that multiple
     // copies of the feature are visible, the popup appears
     // over the copy being pointed to.
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
-    
-     
+   
+
+ 
     new mapboxgl.Popup()
     .setLngLat(coordinates)
-    .setHTML(
-        ('<h3>'+ Organization + '</h3>') + ('<h4> รูปแบบองค์กร: </h4>') + OrganizationType +
-        ('<h4> ความต้องการ: </h4>') + ('&#x2022; ' + DevelopmentNeeds )  + "<br />" +  ('&#x2022; ' + TechnologicalNeeds) + "<br />" + ('&#x2022; ' + InnovationNeeds)
-        )
+      .setHTML(
+        '<div class="popup-content">' +
+        '<h3>' + Organization + '</h3>' +
+        '<p>ต.' + SubDistrict + ' อ.' + District + ' จ.' + Province + '</p>' +
+        '<h4> รูปแบบองค์กร: </h4>' +
+        '<p>' + OrganizationType + '</p>' +
+        '<h4> ลักษณะการดำเนินงาน : </h4>' +
+        '<p>' + OperatingCharacteristics + '</p>' +
+        '<h4> รูปแบบความต้องการสนับสนุน : </h4>' +
+        '<p><img src="' + getLogoPath(DevelopmentNeeds) + '" style="width:20px;height:20px;margin-right:5px;vertical-align:middle;">' + DevelopmentNeeds + '</p>' +
+        '<h4> ความต้องการด้านเทคโนโลยีดิจิทัล: </h4>' +
+        '<p>' + TechnologicalNeeds + '</p>' +
+        '<h4> ความต้องการด้านวัตกรรม : </h4>' +
+        '<p>' + InnovationNeeds + '</p>' +
+        '<div class="button-container-center">' +
+        '<a href="https://docs.google.com/forms/d/e/1FAIpQLSeggJtcjYLbr9_03emHlH9O1SVy2mVjPUGQJ500T-Yg9p0Vig/viewform?usp=pp_url&entry.25230313=' + Organization+ '" target="_blank" class="blue-button">สนใจสนับสนุน</a>' +
+        '</div>' +
+        '</div>'
+      )
+
     .addTo(map);
     });
 
-   
+map.on('click', 'BOI_highlighted_programs', (e) => {
+  const coordinates = e.features[0].geometry.coordinates.slice();
+
+  const Organization = e.features[0].properties.ชื่อองค์กรที่ต้องการเข้าร่วม
+  const SubDistrict = e.features[0].properties.ตำบล;
+  const District = e.features[0].properties.อำเภอ;
+  const Province = e.features[0].properties.จังหวัด;
+  const Projectname = e.features[0].properties.ชื่อโครงการ;
+  const DevelopmentNeeds = e.features[0].properties.ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน;
+  const Purpose1 = e.features[0].properties["วัตถุประสงค์โครงการ-1"];
+  const Purpose2 = e.features[0].properties["วัตถุประสงค์โครงการ-2"];
+  const Purpose3 = e.features[0].properties["วัตถุประสงค์โครงการ-3"]; 
+  const photo = e.features[0].properties["photo"].split("/")[5];
+  const onepage = e.features[0].properties.onepage;
+
+
+  const test = e.features[0].properties
+
+  console.log("test", test)
+
+  console.log("onepage", onepage)
+  console.log("photo" , photo)
+
+
+  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+  }
+
+
+  new mapboxgl.Popup()
+    .setLngLat(coordinates)
+    .setHTML(
+      '<div class="popup-content">' +
+      '<h3 style="margin-bottom: 0;">' + Organization + '</h3>' +
+      '<p>ต.' + SubDistrict + ' อ.' + District + ' จ.' + Province + '</p>' +
+      '<h4> รูปแบบความต้องการสนับสนุน : </h4>' +
+      '<p><img src="' + getLogoPath(DevelopmentNeeds) + '" style="width:20px;height:20px;margin-right:5px;vertical-align:middle;">' + DevelopmentNeeds + '</p>' +
+      '<h4> โครงการที่ต้องการสนับสนุน: </h4>' +
+      '<p><img src="icon/icon_highlight.svg" style="width:20px;height:20px;margin-right:5px;vertical-align:middle;">' + Projectname + '</p>' +
+      '<h4> วัตถุประสงค์โครงการ: </h4>' +
+      '<p> 1. ' + Purpose1 + '</p>' +
+      '<p> 2. ' + Purpose2 + '</p>' +
+      '<p> 3. ' + Purpose3 + '</p>' +
+      '<img src="https://drive.google.com/thumbnail?id='+ photo + '" class="popup-image">' +
+      '<div class="button-container-center">' +
+      '<a href="https://docs.google.com/forms/d/e/1FAIpQLSeggJtcjYLbr9_03emHlH9O1SVy2mVjPUGQJ500T-Yg9p0Vig/viewform?usp=pp_url&entry.25230313=' + Organization + '" target="_blank" class="blue-button">สนใจสนับสนุน</a>' +
+      '<a href="' + onepage +'"' +  'target="_blank" class="blue-button">Onepage โครงการ</a>' +
+      '</div>'+ 
+     '</div> '
+    )
+    .addTo(map);
+});
+
+map.on('mouseenter', 'BOI_highlighted_programs', () => {
+  map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseleave', 'BOI_highlighted_programs', () => {
+  map.getCanvas().style.cursor = '';
+});
+
+
 
     // Change the cursor to a pointer when the mouse is over the places layer.
     map.on('mouseenter', 'Nov23_BOI Community Survey', () => {
@@ -66,22 +257,22 @@ map.on('click', 'Nov23_BOI Community Survey', (e) => {
     });
 
 
-/* // instantiate a popup for the basemap
-const basemapPopup = new mapboxgl.Popup({
-    closeButton: false,
-    closeOnClick: false,
-  });
+//  instantiate a popup for the basemap
+// const basemapPopup = new mapboxgl.Popup({
+//     closeButton: false,
+//     closeOnClick: false,
+//   });
   
 
-map.on("click", "Nov23_BOI Community Survey", (e) => {
-    console.log(e.features[0].properties.ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน);
-    // string together a number of methods to create a popup
-      basemapPopup
-      .setLngLat(e.lngLat)
-      .setHTML(`${e.features[0].properties.ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน}`)
-      .addTo(map);
+// map.on("click", "Nov23_BOI Community Survey", (e) => {
+//     console.log(e.features[0].properties.ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน);
+//     // string together a number of methods to create a popup
+//       basemapPopup
+//       .setLngLat(e.lngLat)
+//       .setHTML(`${e.features[0].properties.ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน}`)
+//       .addTo(map);
       
-  }); */
+//   }); 
 
 
 /* map.on("mouseleave", "Nov23_BOI Community Survey", () => {

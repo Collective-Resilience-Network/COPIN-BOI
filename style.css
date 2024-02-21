@@ -1,17 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap');
+
+
+
 body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    width: 100vw;
-  }
-   
-  #map {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-  }
+  margin: 0;
+  padding: 0;
+  font-family: 'Syne', sans-serif;
+  height: 100vh;
+  width: 100vw;
+}
+
+#map {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+}
+
+
+
+.filter-group {
+  position: absolute;
+  top: 9vh;
+  right: 20px;
+  width: 250px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 1000;
+  /* Make sure it appears above the map */
+}
+
+.filter-group label {
+  display: flex;
+  /* Use flexbox for layout */
+  align-items: flex-start;
+  /* Vertically align to the top */
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filter-group label input {
+  margin-right: 8px;
+  /* Space between checkbox and label text */
+}
+
+.filter-group input[type="checkbox"] {
+  display: none;
+  /* Hide the default checkbox */
+}
+
+.custom-checkbox {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  position: relative;
+}
+
+.filter-group input[type="checkbox"]:checked+.custom-checkbox {
+  /* Change from ::before */
+  background-color: #007bff;
+  /* Blue background when checked */
+  border-color: #007bff;
+  /* Match the border color */
+}
+
+.filter-group input[type="checkbox"]:checked+.custom-checkbox::after {
+  content: '\2713';
+  /* Unicode for checkmark character */
+  color: #fff;
+  /* White color */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+}
+
+.filter-group label .label-text {
+  /* New addition */
+  flex: 1;
+  /* Allow the text to take up remaining space */
+  word-break: break-word;
+  /* Allow long text to wrap */
+}
+
+#select-all {
+  color: #007bff;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 10px;
+
+  /* Add the following: */
+  float: right;
+}
+
+#toggle-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-family: 'Sarabun', sans-serif;
+  font-weight: 700;
+  z-index: 1001;
+  
+  /* Above the filter group */
+}
 
 .mapboxgl-popup {
-max-width: 1000px;
-/* font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif; */
+  max-width: 100vw;
+ 
+  /* Occupy up to 80% of viewport width */
+}
+
+.mapboxgl-popup-content {
+  border-radius: 16px;
+  padding: 10px;
+}
+
+
+.popup-image {
+  max-width: 100%;
+  height: auto;
+}
+
+
+.button-container-center {
+  display: flex;
+  justify-content: center;
+  /* Centers buttons*/
+}
+
+.blue-button {
+  display: inline-block;
+  background-color: #003995;
+  color: white;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 8px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 0 5px;
+  /* Add margin to create space between */
+}
+
+.blue-button:hover {
+  background-color: #2d7af6;
+}
+.search-container {
+  position: absolute;
+  top: 20px;
+  right: 90px;
+  margin-right: 2vw;
+  /* Add a 20px left margin */
+}
+
+.search-container input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  /* Slightly rounded corners */
+  width: 250px;
+  /* Adjust the width as needed */
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding-left: 35px;
+  /* Subtle shadow */
+}
+
+.search-container input[type="text"]:focus {
+  outline: none;
+  /* Remove default focus outline */
+  border-color: #007bff;
+  /* Optional: change border on focus */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.search-container i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+.popup-content h3 {
+  color: black;
+  margin-bottom: 2px;
+}
+
+.popup-content h4{
+  margin-top: 5px;
+   margin-bottom: 0;
+}
+.popup-content p {
+  margin-top: 0px;
+  margin-bottom: 10px;
+  color: gray;
 }

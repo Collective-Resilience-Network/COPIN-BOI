@@ -1,33 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>COPIN | BOI</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
- 
-    <!-- mapbox dependencies -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
-    <!-- mapbox styling -->
-    <link
-      href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css"
-      rel="stylesheet"
-    />
-    <!-- mapbox geocoder plugin -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
-      type="text/css"
-    />
- 
-    <!-- our css style sheet -->
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- map container -->
-    <div id="map"></div>
-    <!-- map script -->
-    <script src="./map.js"></script>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <title>COPIN | BOI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- mapbox dependencies -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+  <!-- mapbox styling -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet" />
+  <!-- mapbox geocoder plugin -->
+  <script
+    src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+  <link rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+    type="text/css" />
+
+  <!-- our css style sheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- map container -->
+  <div id="map"></div>
+  <div class="search-container">
+
+    <input type="text" id="searchBar" placeholder="ค้นหาชื่อองค์กรที่ต้องการเข้าร่วม" name="search">
+    <i class="fas fa-search"></i>
+  </div>
+<div class="toggle-container">
+  <button id="toggle-btn">
+  <i class="fas fa-filter"></i>
+  ตัวกรอง
+</button>
+  <div id="filter-ui" class="filter-group">
+    <label><input type="checkbox" name="development-needs" value="พัฒนาการท่องเที่ยวชุมชน"><span
+        class="custom-checkbox"></span>
+      <div class="label-text">พัฒนาการท่องเที่ยวชุมชน</div>
+    </label>
+    <label><input type="checkbox" name="development-needs" value="พัฒนาด้านการศึกษา สาธารณสุข และสิ่งแวดล้อมชุมชน"><span
+        class="custom-checkbox"></span>
+      <div class="label-text"> พัฒนาด้านการศึกษา สาธารณสุข และสิ่งแวดล้อมชุมชน</div>
+    </label>
+    <label><input type="checkbox" name="development-needs" value="พัฒนาภาคเกษตรและระบบน้ำ"><span
+        class="custom-checkbox"></span>
+      <div class="label-text"> พัฒนาภาคเกษตรและระบบน้ำ</div>
+    </label>
+    <label><input type="checkbox" name="development-needs" value="พัฒนาหรือต่อยอดรูปแบบผลิตภัณฑ์หัตถกรรมท้องถิ่น"><span
+        class="custom-checkbox"></span>
+      <div class="label-text">พัฒนาหรือต่อยอดรูปแบบผลิตภัณฑ์หัตถกรรมท้องถิ่น</div>
+    </label>
+    <label><input type="checkbox" name="development-needs"
+        value="สนับสนุนโรงงานแปรรูปสินค้าเกษตรหรือผลผลิตทางการเกษตรของชุมชน"><span class="custom-checkbox"></span>
+      <div class="label-text">สนับสนุนโรงงานแปรรูปสินค้าเกษตรหรือผลผลิตทางการเกษตรของชุมชน</div>
+    </label>
+    <a href="#" id="select-all">เลือกทั้งหมด</a>
+  </div>
+  </div>
+
+  <!-- map script -->
+  <script src="./map.js"></script>
+  <script src="./toggled.js"></script>
+  <script src="./selectall.js"></script>
+
+</body>
+
 </html>
- 
