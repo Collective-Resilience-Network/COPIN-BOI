@@ -245,13 +245,45 @@ body {
   .search-container {
     top: 1vh;
     right: 2vw;
-    width: 85vw;
+    width: 80%;
     /* Adjust width for mobile */
   }
 
   .search-container input[type="text"] {
     font-size: 12px;
     width: 60%;
+    /* margin-right: 3vw; */
+    /* Adjust input text size */
+  }
+
+  .mapboxgl-popup {
+    max-width: 90vw;
+  }
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+
+  .search-container input[type="text"] {
+    padding-left: 30px;
+  }
+
+  .filter-group {
+    right: 2vw;
+    width: 90vw;
+    padding: 10px;
+    /* Expand filter group to occupy most of the screen width */
+  }
+
+
+  .search-container {
+    top: 1vh;
+    width: 90%;
+  }
+
+  .search-container input[type="text"] {
+    font-size: 12px;
+    width: 80%;
     /* margin-right: 3vw; */
     /* Adjust input text size */
   }
