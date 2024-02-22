@@ -105,13 +105,16 @@ body {
   top: 2vh;
   right: 6vw;
   margin-right: 3vw;
+  color: rgb(145, 142, 142);
+  
   /* Add a 20px left margin */
 }
 
 .search-container input[type="text"] {
-  padding: 1vw;
+  padding: 10px;
   border: 2px solid #ddd;
   border-radius: 20px;
+  margin-left: 3px;
   /* Slightly rounded corners */
   width: 20vw;
   /* Adjust the width as needed */
@@ -130,10 +133,11 @@ body {
 
 .search-container i {
   position: absolute;
-  left: 1vw;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
 }
+
 #toggle-btn {
   position: absolute;
   top: 20px;
@@ -236,16 +240,14 @@ body {
 
   #toggle-btn {
     right: 10px;
-    top: 10px;
-    /* Reposition toggle button */
-    padding: 5px 10px;
-    /* Reduce button size */
+    top: 1vh;
+    padding: 10px 10px;
   }
 
   .search-container {
     top: 1vh;
-    right: 2vw;
-    width: 80%;
+    right: 3vw;
+    width: 90%;
     /* Adjust width for mobile */
   }
 
@@ -274,6 +276,12 @@ body {
     padding: 10px;
     /* Expand filter group to occupy most of the screen width */
   }
+
+        #toggle-btn {
+          right: 10px;
+          top: 1vh;
+          padding: 10px 10px;
+        }
 
 
   .search-container {
