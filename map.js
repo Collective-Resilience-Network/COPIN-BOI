@@ -183,6 +183,9 @@ map.on('click', 'Nov23_BOI Community Survey', (e) => {
 });
 
 
+
+
+
     
 map.on('click', 'BOI_highlighted_programs', (e) => {
 
@@ -252,11 +255,7 @@ map.on('click', 'BOI_highlighted_programs', (e) => {
     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
   }
 
-  new mapboxgl.Popup({
-  closeOnClick: true,
-  anchor: "top",
-  offset: [0, -20],
-})
+  new mapboxgl.Popup()
   .setLngLat(coordinates)
   .setHTML(generatePopupContent(Organization, SubDistrict, District, Province, DevelopmentNeeds, Projectname, Purpose1, Purpose2, Purpose3, photo, onepage))
   .addTo(map);
