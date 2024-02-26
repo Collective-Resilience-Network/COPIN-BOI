@@ -20,7 +20,7 @@ body {
 
 .filter-group {
   position: absolute;
-  top: 9vh;
+  top: 15vh;
   right: 4vw;
   width: 20vw;
   background-color: #ffffff;
@@ -102,7 +102,7 @@ body {
 
 .search-container {
   position: absolute;
-  top: 2vh;
+  top: 8vh;
   right: 6vw;
   margin-right: 3vw;
   color: rgb(145, 142, 142);
@@ -113,7 +113,7 @@ body {
 .search-container input[type="text"] {
   padding: 10px;
   border: 2px solid #ddd;
-  border-radius: 20px;
+  border-radius: 10px;
   margin-left: 3px;
   /* Slightly rounded corners */
   width: 20vw;
@@ -127,6 +127,7 @@ body {
 .search-container input[type="text"]:focus {
   outline: none;
   border-color: #007bff;
+  
   /* Optional: change border on focus */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
@@ -140,10 +141,10 @@ body {
 
 #toggle-btn {
   position: absolute;
-  top: 20px;
+  top: 8vh;
   right: 20px;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #003995;
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -155,6 +156,9 @@ body {
   /* Above the filter group */
 }
 
+#toggle-btn:hover {
+  background-color: #2067d9;
+}
 .mapboxgl-popup {
   max-width: 100vw;
  
@@ -182,7 +186,7 @@ body {
 
 .blue-button {
   display: inline-block;
-  background-color: #007bff;
+  background-color: #003995;
   color: white;
   padding: 8px 15px;
   text-align: center;
@@ -206,12 +210,12 @@ body {
 }
 
 .popup-content h4{
-  margin-top: 5px;
-   margin-bottom: 0;
+  margin-top: 1vh;
+  margin-bottom: 0;
 }
 .popup-content p {
   margin-top: 0px;
-  margin-bottom: 10px;
+  margin-bottom: 1vh;
   color: gray;
 }
 
@@ -240,13 +244,13 @@ body {
 
   #toggle-btn {
     right: 10px;
-    top: 1vh;
+    top: 8vh;
     padding: 10px 10px;
   }
 
   .search-container {
-    top: 1vh;
-    right: 3vw;
+    top: 8vh;
+    right: 1vw;
     width: 90%;
     /* Adjust width for mobile */
   }
@@ -261,15 +265,23 @@ body {
   .mapboxgl-popup {
     max-width: 90vw;
   }
+
+  .hamburger{ 
+    margin-right:5vw;
+  }
 }
 
 
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
+@media only screen and (min-width: 768px) and (max-width: 1124px) {
 
   .search-container input[type="text"] {
     padding-left: 30px;
   }
 
+  #popup{ 
+    top: 60%;
+    
+  }
   .filter-group {
     right: 2vw;
     width: 90vw;
@@ -279,13 +291,14 @@ body {
 
         #toggle-btn {
           right: 10px;
-          top: 1vh;
+          top: 8vh;
           padding: 10px 10px;
         }
 
 
   .search-container {
-    top: 1vh;
+    right: 0vw;
+    top: 8vh;
     width: 90%;
   }
 
@@ -299,4 +312,65 @@ body {
   .mapboxgl-popup {
     max-width: 90vw;
   }
+        .hamburger {
+          margin-right: 2vw;
+        }
+}
+
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 18px;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+
+
+.hamburger {
+  cursor: pointer;
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  width: 20px;
+  background-color: black;
+  margin-right: 2vw;
+}
+
+#popup {
+display: none;
+  position: fixed;
+  left: 50%;
+  top: 58%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  padding-top: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 1002;
+  width: 80%;
+  max-width: 400px;
+}
+
+.close-btn {
+  position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer
 }

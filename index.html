@@ -28,6 +28,24 @@
 <body>
   <!-- map container -->
   <div id="map"></div>
+  <nav class="navbar">
+    <a href="#" class="logo">
+      <img src="icon/logo.svg" alt="Logo" >
+
+    </a>
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+<div id="popup">
+  <span class="close-btn" onclick="closePopup()" >X</span>
+  <!-- Add more content here as needed -->
+  <img src="images/COPIN-BOI_Info.jpg" alt="Descriptive text about the image" style="max-width:100%; height:auto;">
+</div> 
+
+  </nav>
+
   <div class="search-container">
 
     <input type="text" id="searchBar" placeholder="ค้นหาชื่อองค์กรที่ต้องการเข้าร่วม" name="search">
@@ -68,6 +86,7 @@
   <script src="./map.js"></script>
   <script src="./toggled.js"></script>
   <script src="./selectall.js"></script>
+  <script src="./popup-information.js"></script>
 
 </body>
 

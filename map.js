@@ -5,7 +5,7 @@ const map = new mapboxgl.Map({
   style: "mapbox://styles/asbarve/clp6zwd1i00go01qx4vi064wp", // Map style to use
   attributionControl: false, //Hide Mapbox Bottom Right Message
   center: [101, 13.07], // Starting position [lng, lat]
-  zoom: 6, // Starting zoom level
+  zoom: 5, // Starting zoom level
   projection: "globe",
 });
 
@@ -28,26 +28,30 @@ const map = new mapboxgl.Map({
 map.on('load', function () {
   // Debug: Log to ensure the map is loaded
   console.log('Map loaded');
+
   document.getElementById('searchBar').addEventListener('input', function (e) {
     searchOrganizations(e.target.value.trim());
   });
+
+  const developmentNeedsCheckboxes = document.querySelectorAll('input[name="development-needs"]');
+  developmentNeedsCheckboxes.forEach(checkbox => {
+    checkbox.checked = true; // Set each checkbox to checked
+  });
+  applyFilters();
 
 
   document.getElementById('select-all').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent default link behavior
 
-    const developmentNeedsCheckboxes = document.querySelectorAll('input[name="development-needs"]');
-
-    // Find out if we should check or uncheck all boxes
+    // Toggle the checked state based on whether all are currently checked
     const allChecked = Array.from(developmentNeedsCheckboxes).every(cb => cb.checked);
-
-    // Toggle state of other checkboxes 
     developmentNeedsCheckboxes.forEach(checkbox => {
-      checkbox.checked = allChecked;
+      checkbox.checked = allChecked; // Toggle state
     });
 
-    applyFilters(); // Refresh the filter
+    applyFilters(); // Refresh the filter based on the new checked state
   });
+
 
 
   function searchOrganizations(query) {
@@ -221,7 +225,7 @@ map.on('click', 'BOI_highlighted_programs', (e) => {
       <img src="https://drive.google.com/thumbnail?id=${photo}" class="popup-image"> 
       <div class="button-container-center"> 
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSeggJtcjYLbr9_03emHlH9O1SVy2mVjPUGQJ500T-Yg9p0Vig/viewform?usp=pp_url&entry.25230313=${Organization}" target="_blank" class="blue-button">สนใจสนับสนุน</a> 
-        <a href="${onepage}" target="_blank" class="blue-button">Onepage โครงการ</a> 
+        <a href="${details}" target="_blank" class="blue-button">รายละเอียดเพิ่มเติม</a> 
       </div> 
     </div>
   `;
@@ -241,14 +245,13 @@ map.on('click', 'BOI_highlighted_programs', (e) => {
   const Purpose2 = e.features[0].properties["วัตถุประสงค์โครงการ-2"];
   const Purpose3 = e.features[0].properties["วัตถุประสงค์โครงการ-3"]; 
   const photo = e.features[0].properties["photo"].split("/")[5];
-  const onepage = e.features[0].properties.onepage;
+  const details = e.features[0].properties["รายละเอียดโครงการ"];
 
   const test = e.features[0].properties
 
   console.log("test", test)
 
-  console.log("onepage", onepage)
-  console.log("photo" , photo)
+
 
 
   while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
@@ -257,7 +260,7 @@ map.on('click', 'BOI_highlighted_programs', (e) => {
 
   new mapboxgl.Popup()
   .setLngLat(coordinates)
-  .setHTML(generatePopupContent(Organization, SubDistrict, District, Province, DevelopmentNeeds, Projectname, Purpose1, Purpose2, Purpose3, photo, onepage))
+  .setHTML(generatePopupContent(Organization, SubDistrict, District, Province, DevelopmentNeeds, Projectname, Purpose1, Purpose2, Purpose3, photo, details))
   .addTo(map);
 })
 
@@ -282,27 +285,3 @@ map.on('mouseleave', 'BOI_highlighted_programs', () => {
     });
 
 
-//  instantiate a popup for the basemap
-// const basemapPopup = new mapboxgl.Popup({
-//     closeButton: false,
-//     closeOnClick: false,
-//   });
-  
-
-// map.on("click", "Nov23_BOI Community Survey", (e) => {
-//     console.log(e.features[0].properties.ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน);
-//     // string together a number of methods to create a popup
-//       basemapPopup
-//       .setLngLat(e.lngLat)
-//       .setHTML(`${e.features[0].properties.ความต้องการสนับสนุนการพัฒนาองค์กรของท่าน}`)
-//       .addTo(map);
-      
-//   }); 
-
-
-/* map.on("mouseleave", "Nov23_BOI Community Survey", () => {
-  basemapPopup.remove();
-}); */
-
-
-  
