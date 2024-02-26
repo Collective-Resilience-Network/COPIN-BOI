@@ -106,7 +106,7 @@ body {
   right: 6vw;
   margin-right: 3vw;
   color: rgb(145, 142, 142);
-  
+
   /* Add a 20px left margin */
 }
 
@@ -127,7 +127,7 @@ body {
 .search-container input[type="text"]:focus {
   outline: none;
   border-color: #007bff;
-  
+
   /* Optional: change border on focus */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
@@ -152,16 +152,17 @@ body {
   font-family: 'Sarabun', sans-serif;
   font-weight: 700;
   z-index: 1001;
-  
+
   /* Above the filter group */
 }
 
 #toggle-btn:hover {
   background-color: #2067d9;
 }
+
 .mapboxgl-popup {
   max-width: 100vw;
- 
+
   /* Occupy up to 80% of viewport width */
 }
 
@@ -209,10 +210,11 @@ body {
   margin-bottom: 2px;
 }
 
-.popup-content h4{
+.popup-content h4 {
   margin-top: 1vh;
   margin-bottom: 0;
 }
+
 .popup-content p {
   margin-top: 0px;
   margin-bottom: 1vh;
@@ -220,104 +222,21 @@ body {
 }
 
 
-
-/* ... (Your existing CSS) */
-
-/* General styling for smaller screens */
-@media only screen and (max-width: 768px) {
-  body {
-    font-size: 14px;
-    /* Adjust base font size for readability */
-  }
-
-  .search-container input[type="text"] {
-      padding-left: 30px;
-
-      /* Increase this value as needed */
-    }
-  .filter-group {
-    right: 2vw;
-    width: 90vw;
-    padding:10px;
-    /* Expand filter group to occupy most of the screen width */
-  }
-
-  #toggle-btn {
-    right: 10px;
-    top: 8vh;
-    padding: 10px 10px;
-  }
-
-  .search-container {
-    top: 8vh;
-    right: 1vw;
-    width: 90%;
-    /* Adjust width for mobile */
-  }
-
-  .search-container input[type="text"] {
-    font-size: 12px;
-    width: 60%;
-    /* margin-right: 3vw; */
-    /* Adjust input text size */
-  }
-
-  .mapboxgl-popup {
-    max-width: 90vw;
-  }
-
-  .hamburger{ 
-    margin-right:5vw;
-  }
+#information-popup {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  padding-top: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 1002;
+  width: 80%;
+  max-width: 400px;
 }
-
-
-@media only screen and (min-width: 768px) and (max-width: 1124px) {
-
-  .search-container input[type="text"] {
-    padding-left: 30px;
-  }
-
-  #popup{ 
-    top: 60%;
-    
-  }
-  .filter-group {
-    right: 2vw;
-    width: 90vw;
-    padding: 10px;
-    /* Expand filter group to occupy most of the screen width */
-  }
-
-        #toggle-btn {
-          right: 10px;
-          top: 8vh;
-          padding: 10px 10px;
-        }
-
-
-  .search-container {
-    right: 0vw;
-    top: 8vh;
-    width: 90%;
-  }
-
-  .search-container input[type="text"] {
-    font-size: 12px;
-    width: 80%;
-    /* margin-right: 3vw; */
-    /* Adjust input text size */
-  }
-
-  .mapboxgl-popup {
-    max-width: 90vw;
-  }
-        .hamburger {
-          margin-right: 2vw;
-        }
-}
-
-
 
 .navbar {
   display: flex;
@@ -352,25 +271,207 @@ body {
   margin-right: 2vw;
 }
 
-#popup {
-display: none;
-  position: fixed;
-  left: 50%;
-  top: 58%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  padding-top: 10px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  z-index: 1002;
-  width: 80%;
-  max-width: 400px;
-}
+
 
 .close-btn {
   position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.close-btn:hover {
+  color: #003995;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.button-container {
+  position: absolute;
+  bottom: 0;
+  transform: translate(-50%, -50%);
+  left: 50%;
+}
+
+.yellow-button {
+  z-index: 1000;
+  background-color: #F8B64C;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 3px 2px;
+  cursor: pointer;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+
+#highlight-popup {
+  display: none;
+  /* Initial state is hidden */
+  position: fixed;
+  /* Or absolute, depending on your layout */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+  /* Adjust based on your needs */
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: white;
+  /* Choose a background color that fits your design */
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Optional: adds a shadow for better visibility */
+  z-index: 1000;
+  border-radius: 10px;
+  /* Ensure it's above other content */
+}
+.highlight-close-btn {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  /* Adjust based on your needs */
+}
+.highlight-close-btn:hover {
+  color: #003995;
+}
+
+
+#highlight-items-container .highlight-item {
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  /* Line between items */
+  padding: 10px;
+}
+
+.highlight-popup-image {
+  max-width: 60%;
+  /* Ensures image is not wider than its container */
+  max-height:   60%;
+  /* Adjust based on your needs */
+  object-fit: cover;
+  /* Ensures the aspect ratio is maintained */
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* General styling for smaller screens */
+@media only screen and (max-width: 768px) {
+  body {
+    font-size: 14px;
+    /* Adjust base font size for readability */
+  }
+
+  #information-popup {
+    top: 53%;
+  }
+
+  .search-container input[type="text"] {
+    padding-left: 30px;
+
+    /* Increase this value as needed */
+  }
+
+  .filter-group {
+    right: 2vw;
+    width: 90vw;
+    padding: 10px;
+    /* Expand filter group to occupy most of the screen width */
+  }
+
+  #toggle-btn {
+    right: 10px;
+    top: 8vh;
+    padding: 10px 10px;
+  }
+
+  .search-container {
+    top: 8vh;
+    right: 1vw;
+    width: 90%;
+    /* Adjust width for mobile */
+  }
+
+  .search-container input[type="text"] {
+    font-size: 12px;
+    width: 60%;
+    /* margin-right: 3vw; */
+    /* Adjust input text size */
+  }
+
+  .mapboxgl-popup {
+    max-width: 90vw;
+  }
+
+  .hamburger {
+    margin-right: 5vw;
+  }
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 1124px) {
+
+  .search-container input[type="text"] {
+    padding-left: 30px;
+  }
+
+  #popup {
+    top: 60%;
+
+  }
+
+  .filter-group {
+    right: 2vw;
+    width: 90vw;
+    padding: 10px;
+    /* Expand filter group to occupy most of the screen width */
+  }
+
+  #toggle-btn {
+    right: 10px;
+    top: 8vh;
+    padding: 10px 10px;
+  }
+
+
+  .search-container {
+    right: 0vw;
+    top: 8vh;
+    width: 90%;
+  }
+
+  .search-container input[type="text"] {
+    font-size: 12px;
+    width: 80%;
+    /* margin-right: 3vw; */
+    /* Adjust input text size */
+  }
+
+  .mapboxgl-popup {
+    max-width: 90vw;
+  }
+
+  .hamburger {
+    margin-right: 2vw;
+  }
 }

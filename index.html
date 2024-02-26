@@ -38,7 +38,7 @@
       <span></span>
       <span></span>
     </button>
-<div id="popup">
+<div id="information-popup">
   <span class="close-btn" onclick="closePopup()" >X</span>
   <!-- Add more content here as needed -->
   <img src="images/COPIN-BOI_Info.jpg" alt="Descriptive text about the image" style="max-width:100%; height:auto;">
@@ -81,13 +81,26 @@
     <a href="#" id="select-all">เลือกทั้งหมด</a>
   </div>
   </div>
+  <div class="button-container">
+    <button class="yellow-button" id="yellow-button"> <img src="icon/icon_highlight.svg" alt="Icon" style="height: 20px; width: 20px; vertical-align: middle;">  โครงการไฮไลท์</button>
+  </div>
+
+<div id="highlight-popup" style="display:none;">
+  <span class="highlight-close-btn">X</span>
+  <div id="highlight-items-container">
+    <!-- Dynamically added items will go here -->
+  </div>
+</div>
+
+
+
 
   <!-- map script -->
   <script src="./map.js"></script>
   <script src="./toggled.js"></script>
   <script src="./selectall.js"></script>
   <script src="./popup-information.js"></script>
-
+  <script src="./highlightpage.js"></script>
 </body>
 
 </html>

@@ -79,6 +79,8 @@ map.on('load', function () {
     }
   }
 
+
+  
   
 
   // Example: Add a source and layer here if needed
@@ -137,6 +139,7 @@ function getLogoPath(developmentNeeds) {
       return 'icon/default-logo.svg'; // Default logo if none of the cases match
   }
 }
+
 
 // add a popup for the basemap
 map.on('click', 'Nov23_BOI Community Survey', (e) => {
@@ -283,5 +286,7 @@ map.on('mouseleave', 'BOI_highlighted_programs', () => {
     map.on('mouseleave', 'Nov23_BOI Community Survey', () => {
     map.getCanvas().style.cursor = '';
     });
+
+
 
 
