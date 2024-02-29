@@ -211,7 +211,7 @@ map.on('click', 'Nov23_BOI Community Survey', (e) => {
 
     
 map.on('click', 'BOI_highlighted_programs', (e) => {
-
+  document.getElementById('yellow-button').style.display = 'none'; // Show the yellow button a
   function generatePopupContent(Organization, SubDistrict, District, Province, DevelopmentNeeds, Projectname, Purpose1, Purpose2, Purpose3, photo, onepage) {
 
     // Get the logo path (assuming you have this function already)
