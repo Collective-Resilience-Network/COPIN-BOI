@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var highlightPopup = document.getElementById('highlight-popup');
     var closeBtn = popup.querySelector('.close-btn');
     var closeBtnHighlight = highlightPopup.querySelector('.highlight-close-btn');
+    var yellowButton = document.getElementById('yellow-button')
 
     // Function to hide all popups
     function hideAllPopups() {
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
         popupElement.style.display = 'block'; // Then show the requested popup
         searchBar.classList.add('hidden'); // Hide the search bar
         toggleBtn.classList.add('hidden'); // Hide the toggle button
+        yellowButton.classList.add('hidden');
     }
 
     // Function to close the popup and show the searchBar and toggleBtn
@@ -30,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
         hideAllPopups(); // Hide all popups
         searchBar.classList.remove('hidden'); // Show the search bar
         toggleBtn.classList.remove('hidden'); // Show the toggle button
+        yellowButton.classList.remove('hidden');
     }
 
     // Attach event listeners for opening popups

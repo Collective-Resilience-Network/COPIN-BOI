@@ -7,7 +7,6 @@ map.on('load', 'BOI_highlighted_programs', (e) => {
 function showHighlightPopup() {
     const highlightPopup = document.getElementById('highlight-popup');
     const itemsContainer = document.getElementById('highlight-items-container');
-
     // Clear previous items
     itemsContainer.innerHTML = '';
 
@@ -69,4 +68,5 @@ document.getElementById('yellow-button').addEventListener('click', showHighlight
 // Handle closing the popup
 document.querySelector('.highlight-close-btn').addEventListener('click', () => {
     document.getElementById('highlight-popup').style.display = 'none';
+  
 });
