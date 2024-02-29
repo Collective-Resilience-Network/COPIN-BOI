@@ -1,12 +1,19 @@
+let boiHighlightedProgramsData = [];
 map.on('load', 'BOI_highlighted_programs', (e) => {
+    boiHighlightedProgramsData = e.features;
+});
+
+
+function showHighlightPopup() {
     const highlightPopup = document.getElementById('highlight-popup');
     const itemsContainer = document.getElementById('highlight-items-container');
 
     // Clear previous items
     itemsContainer.innerHTML = '';
 
-    e.features.forEach(feature => {
-        const highlightProgram = feature.properties.ชื่อองค์กรที่ต้องการเข้าร่วม;
+    // Use the stored data
+    boiHighlightedProgramsData.forEach(feature => {
+        const highlightProgram = feature.properties['ชื่อองค์กรที่ต้องการเข้าร่วม'];
         let onepage = feature.properties.onepage;
 
         // Extract photo ID from the 'onepage' URL
@@ -21,7 +28,6 @@ map.on('load', 'BOI_highlighted_programs', (e) => {
         textElement.textContent = highlightProgram;
         itemElement.appendChild(textElement);
 
-        // Add an image if 'onepage' contains a photo ID
         // Add an image if 'onepage' contains a photo ID
         if (photo) {
             const imgURL = `https://lh3.googleusercontent.com/d/${photo}`;
@@ -49,17 +55,16 @@ map.on('load', 'BOI_highlighted_programs', (e) => {
             itemElement.appendChild(buttonContainer);
         }
 
-
         // Append item to container
         itemsContainer.appendChild(itemElement);
     });
 
     // Show popup
     highlightPopup.style.display = 'block';
+}
 
-    console.log("highlight", e.features.map(feature => feature.properties.ชื่อองค์กรที่ต้องการเข้าร่วม));
-    console.log("onepage", e.features.map(feature => feature.properties.onepage));
-});
+// Attach event listener to the show highlights button
+document.getElementById('yellow-button').addEventListener('click', showHighlightPopup);
 
 // Handle closing the popup
 document.querySelector('.highlight-close-btn').addEventListener('click', () => {
