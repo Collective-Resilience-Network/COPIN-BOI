@@ -224,7 +224,7 @@ map.on('click', 'BOI_highlighted_programs', (e) => {
 
     // Start building your HTML string
     let popupContent = `
-    <div class="popup-content">
+    <div class="popup-content" style="overflow:auto">
       <h3 style="margin-bottom: 0;">${Organization}</h3>
       <p>ต. ${SubDistrict} อ. ${District} จ. ${Province}</p>
       <h4> รูปแบบความต้องการสนับสนุน : </h4> 
@@ -286,7 +286,7 @@ map.on('click', 'BOI_highlighted_programs', (e) => {
     if (popupContent) {
       popupContent.scrollTop = 0; // Scroll to the top of the popup content
     }
-  }, 1000);
+  }, 100);
 
 })
 

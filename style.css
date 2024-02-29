@@ -167,12 +167,13 @@ body {
 }
 
 
+
 .mapboxgl-popup-content {
   border-radius: 16px;
   padding: 10px;
-  max-height: 40vh;
-  overflow-y:auto;
-  z-index:1000;
+  max-height: 50vh;
+  overflow: auto;
+  z-index:500;
 }
 
 
