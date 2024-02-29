@@ -140,6 +140,7 @@ function getLogoPath(developmentNeeds) {
 
 // add a popup for the basemap
 map.on('click', 'Nov23_BOI Community Survey', (e) => {
+  document.getElementById('yellow-button').style.display = 'none';
   // แยกข้อมูลจาก Feature
   const {
     properties: {
@@ -184,12 +185,21 @@ map.on('click', 'Nov23_BOI Community Survey', (e) => {
       </div>`
     )
     .addTo(map)
+    .on('close', function () {
+      document.getElementById('yellow-button').style.display = ''; // Show the yellow button again
+    });
+
   setTimeout(() => {
     const popupContent = document.querySelector('.mapboxgl-popup-content');
     if (popupContent) {
       popupContent.scrollTop = 0; // Scroll to the top of the popup content
     }
   }, 100);
+
+
+  document.getElementById('yellow-button').style.display = 'none';
+
+  // Add an event listener to show the yellow button when the popup is closed
 
 
     
@@ -267,6 +277,10 @@ map.on('click', 'BOI_highlighted_programs', (e) => {
   .setLngLat(coordinates)
   .setHTML(generatePopupContent(Organization, SubDistrict, District, Province, DevelopmentNeeds, Projectname, Purpose1, Purpose2, Purpose3, photo, details))
   .addTo(map)
+    .on('close', function () {
+      document.getElementById('yellow-button').style.display = ''; // Show the yellow button again
+    });
+
   setTimeout(() => {
     const popupContent = document.querySelector('.mapboxgl-popup-content');
     if (popupContent) {

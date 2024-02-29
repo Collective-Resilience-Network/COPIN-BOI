@@ -172,6 +172,7 @@ body {
   padding: 10px;
   max-height: 40vh;
   overflow-y:auto;
+  z-index:1000;
 }
 
 
@@ -301,7 +302,6 @@ body {
 }
 
 .yellow-button {
-  z-index: 1000;
   background-color: #F8B64C;
   border: none;
   padding: 15px 32px;
