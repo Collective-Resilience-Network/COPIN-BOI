@@ -166,9 +166,12 @@ body {
   /* Occupy up to 80% of viewport width */
 }
 
+
 .mapboxgl-popup-content {
   border-radius: 16px;
   padding: 10px;
+  max-height: 40vh;
+  overflow-y:auto;
 }
 
 
@@ -208,6 +211,7 @@ body {
 .popup-content h3 {
   color: black;
   margin-bottom: 2px;
+
 }
 
 .popup-content h4 {
@@ -335,6 +339,7 @@ body {
   border-radius: 10px;
   /* Ensure it's above other content */
 }
+
 .highlight-close-btn {
   cursor: pointer;
   position: absolute;
@@ -343,6 +348,7 @@ body {
   font-size: 20px;
   /* Adjust based on your needs */
 }
+
 .highlight-close-btn:hover {
   color: #003995;
 }
@@ -358,7 +364,7 @@ body {
 .highlight-popup-image {
   max-width: 60%;
   /* Ensures image is not wider than its container */
-  max-height:   60%;
+  max-height: 60%;
   /* Adjust based on your needs */
   object-fit: cover;
   /* Ensures the aspect ratio is maintained */

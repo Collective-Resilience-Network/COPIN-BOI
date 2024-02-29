@@ -11,10 +11,6 @@ const map = new mapboxgl.Map({
 
 
 
-// Function to update the filter
-
-
-
 // // Initialize the search engine
 // const geocoder = new MapboxGeocoder({
 //     accessToken: mapboxgl.accessToken, // Set the access token
@@ -22,6 +18,7 @@ const map = new mapboxgl.Map({
 //     placeholder: "Search by Name", //placeholder text for the search bar
 //   });
 
+// Create a new Scrollbar instance
 
 // map.addControl(geocoder);
 
@@ -186,9 +183,18 @@ map.on('click', 'Nov23_BOI Community Survey', (e) => {
         </div>
       </div>`
     )
-    .addTo(map);
-});
+    .addTo(map)
+  setTimeout(() => {
+    const popupContent = document.querySelector('.mapboxgl-popup-content');
+    if (popupContent) {
+      popupContent.scrollTop = 0; // Scroll to the top of the popup content
+    }
+  }, 100);
 
+
+    
+
+});
 
 
 
@@ -250,10 +256,6 @@ map.on('click', 'BOI_highlighted_programs', (e) => {
   const photo = e.features[0].properties["photo"].split("/")[5];
   const details = e.features[0].properties["รายละเอียดโครงการ"];
 
-  const test = e.features[0].properties
-
-  console.log("test", test)
-
 
 
 
@@ -264,7 +266,14 @@ map.on('click', 'BOI_highlighted_programs', (e) => {
   new mapboxgl.Popup()
   .setLngLat(coordinates)
   .setHTML(generatePopupContent(Organization, SubDistrict, District, Province, DevelopmentNeeds, Projectname, Purpose1, Purpose2, Purpose3, photo, details))
-  .addTo(map);
+  .addTo(map)
+  setTimeout(() => {
+    const popupContent = document.querySelector('.mapboxgl-popup-content');
+    if (popupContent) {
+      popupContent.scrollTop = 0; // Scroll to the top of the popup content
+    }
+  }, 1000);
+
 })
 
 map.on('mouseenter', 'BOI_highlighted_programs', () => {
